@@ -2,10 +2,26 @@
   "name": "cli-encrypt",
   "version": "1.0.0",
   "description": "A cli application to encrypts files",
-  "main": "index.js",
+  "main": "secreto.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Carlos Garcia Ortiz <garciaortizc@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karliatto/encrypt-decrypt-nodejs-cli.git"
+  },
+  "keywords": [
+    "cli",
+    "javascript",
+    "nodejs"
+  ],
+  "bugs": {
+    "url": "https://github.com/karliatto/encrypt-decrypt-nodejs-cli/issues"
+  },
+  "homepage": "https://github.com/karliatto/encrypt-decrypt-nodejs-cli#readme",
+  "dependencies": {
+    "commander": "2.9.0"
+  }
 }
