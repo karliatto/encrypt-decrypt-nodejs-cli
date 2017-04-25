@@ -14,13 +14,12 @@ const inquirer = require('inquirer');
 
 
 function doEncrypt(file) {
-	// var key = '14189dc35ae35e75ff31d7502e245cd9bc7803838fbfd5c773cdcd79b8a28bbd';
 	var questions = [
 		{
-		    type: 'password',
-		    name: 'key',
-		    message: 'Insert a key:',
-		    default: false
+			type: 'password',
+			name: 'key',
+			message: 'Insert a password to encrypt the file: ' + file ,
+			default: false
 		}]
 	inquirer.prompt(questions).then(function (answers) {
 		console.log(answers)
@@ -30,15 +29,37 @@ function doEncrypt(file) {
 		input.pipe(cipher).pipe(output);
 
 		output.on('finish', function() {
-		  console.log('Encrypted file written to disk!');
-		  console.log('Filename: ' + file + '.enc');
+			console.log('Encrypted file written to disk!');
+			console.log('Filename: ' + file + '.enc');
 		});
 	})		
 }
 
+function doDecrypt(file) {
+	var questions = [
+		{
+			type: 'password',
+			name: 'key',
+			message: 'Insert a password to decrypt the file:',
+			default: false
+		}]
+	inquirer.prompt(questions).then(function (answers) {
+		console.log(answers)
+		let input = fs.createReadStream(file);
+		let output = fs.createWriteStream('decripted');
+		let deCipher = crypto.createDecipher('aes-256-cbc', answers.key);
+		input.pipe(deCipher).pipe(output);
+
+		output.on('finish', function() {
+			console.log('Decrypted file written to disk!');
+			console.log('Filename: ' + file);
+		});
+	})		
+}
 
 program
-  .version('0.0.1')
-  .description('secreto is a CLI for encrypting files')
-  .option('-e, --encrypt <file>', 'encrypt the <file>', doEncrypt)
-  .parse(process.argv)
+	.version('0.0.2')
+	.description('secreto is a CLI for encrypting files')
+	.option('-e, --encrypt <file>', 'encrypt the <file>', doEncrypt)
+	.option('-d, --decrypt <file>', 'decrypt the <file>', doDecrypt)
+	.parse(process.argv)
