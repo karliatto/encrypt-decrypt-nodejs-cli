@@ -14,7 +14,7 @@ const inquirer = require('inquirer');
 
 
 function doEncrypt(file) {
-	var questions = [
+	const questions = [
 		{
 			type: 'password',
 			name: 'key',
@@ -23,9 +23,9 @@ function doEncrypt(file) {
 		}]
 	inquirer.prompt(questions).then(function (answers) {
 		console.log(answers)
-		let input = fs.createReadStream(file);
-		let output = fs.createWriteStream(file + '.enc');
-		let cipher = crypto.createCipher('aes-256-cbc', answers.key);
+		const input = fs.createReadStream(file);
+		const output = fs.createWriteStream(file + '.enc');
+		const cipher = crypto.createCipher('aes-256-cbc', answers.key);
 		input.pipe(cipher).pipe(output);
 
 		output.on('finish', function() {
@@ -36,7 +36,7 @@ function doEncrypt(file) {
 }
 
 function doDecrypt(file) {
-	var questions = [
+	const questions = [
 		{
 			type: 'password',
 			name: 'key',
@@ -44,15 +44,15 @@ function doDecrypt(file) {
 			default: false
 		}]
 	inquirer.prompt(questions).then(function (answers) {
-		console.log(answers)
-		let input = fs.createReadStream(file);
-		let output = fs.createWriteStream('decripted');
-		let deCipher = crypto.createDecipher('aes-256-cbc', answers.key);
+		const input = fs.createReadStream(file);
+		const filenameOutput = file.slice(0, file.length - 4)
+		const output = fs.createWriteStream(filenameOutput);
+		const deCipher = crypto.createDecipher('aes-256-cbc', answers.key);
 		input.pipe(deCipher).pipe(output);
 
 		output.on('finish', function() {
 			console.log('Decrypted file written to disk!');
-			console.log('Filename: ' + file);
+			console.log('Filename: ' + filenameOutput);
 		});
 	})		
 }
